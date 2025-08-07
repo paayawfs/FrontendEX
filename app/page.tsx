@@ -2,6 +2,7 @@
 'use client';
 import React from "react";
 import RecentActivityTable from "@/app/Components/recent_activity_table";
+import Add_transaction_component from "@/app/Components/add_transaction_component";
 
 const recentActivityData = [
     {
@@ -26,7 +27,7 @@ const recentActivityData = [
 export default function Home() {
     return (
         <main>
-            <RecentActivityTable transaction={recentActivityData}/>
+            <Add_transaction_component/>
         </main>
     );
 }
