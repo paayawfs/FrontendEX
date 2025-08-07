@@ -12,7 +12,7 @@ type transactionProps = {
         }[];
 }
 
-const recentActivityTable = ({transaction}: transactionProps) => {
+const RecentActivityTable = ({transaction}: transactionProps) => {
 
     return (
         <div className={"overflow-x-auto bg-white rounded-2xl shadow "}>
@@ -42,4 +42,4 @@ const recentActivityTable = ({transaction}: transactionProps) => {
 
     );
 }
-export default recentActivityTable;
+export default RecentActivityTable;

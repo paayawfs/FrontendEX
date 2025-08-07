@@ -1,23 +1,32 @@
+// app/page.tsx
 'use client';
 import React from "react";
-
-
-
-
-import Recent_activity_table from "@/app/Components/recent_activity_table";
+import RecentActivityTable from "@/app/Components/recent_activity_table";
 
 const recentActivityData = [
-    { name: "Groceries", value: 400 },
-    { name: "Utilities", value: 300 },
-    { name: "Entertainment", value: 300 },
-    { name: "Transport", value: 200 },
+    {
+        name: "Groceries",
+        value: 400,
+        date: "2024-01-15",
+        type: "expense",
+        category: "Food",
+        id: 1
+    },
+    {
+        name: "Utilities",
+        value: 300,
+        date: "2024-01-14",
+        type: "expense",
+        category: "Bills",
+        id: 2
+    },
+    // ... other items with complete data
 ];
 
-export default function Home(){
+export default function Home() {
     return (
         <main>
-            <recentActivityTable data={recentActivityData}/>
+            <RecentActivityTable transaction={recentActivityData}/>
         </main>
-
     );
 }
