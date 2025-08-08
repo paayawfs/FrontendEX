@@ -1,12 +1,23 @@
 import React from "react";
 
+interface DashboardComponentProps {
+    title: string;
+    value: number;
+}
 
-export default function Dashboard_component({ title, value } : { title: string, value: number }) {
-
-    return(
-         <div className={"w-60 h-40 bg-gray-200 drop-shadow-xl drop-shadow-[#FC5DE7] border-[#FC5DE7] border-4 rounded-2xl text-center"}>
-             <p className={"text-black text-lg p-5"}>{title}</p>
-             <p className={"text-xl text-black p-4 font-bold "}>{value + "₵"} </p>
-
-         </div> );
+export default function Dashboard_component({ title, value }: DashboardComponentProps) {
+    return (
+        <div className="w-64 h-40 bg-white rounded-xl shadow-lg border-l-4 border-[#6c63ff] p-6">
+            <div className="h-full flex flex-col justify-between">
+                <h3 className="text-gray-600 text-base font-medium">
+                    {title}
+                </h3>
+                <div className="flex items-end">
+                    <span className="text-3xl font-bold text-[#1a1a2e]">
+                        ₵{value.toLocaleString()}
+                    </span>
+                </div>
+            </div>
+        </div>
+    );
 }
