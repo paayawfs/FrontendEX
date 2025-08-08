@@ -37,17 +37,20 @@ const AddTransactionComponent: React.FC = () => {
         }));
     };
 
+    const inputClasses = "shadow-sm border rounded-lg w-full py-2.5 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#6c63ff] focus:border-transparent transition-all";
+    const labelClasses = "block text-[#1a1a2e] text-sm font-medium mb-2";
+
     return (
         <div className="max-w-2xl mx-auto p-6">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Transaction</h2>
+            <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl px-8 pt-6 pb-8 mb-4 border-l-4 border-[#6c63ff]">
+                <h2 className="text-2xl font-bold mb-6 text-[#1a1a2e]">Add Transaction</h2>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                    <label className={labelClasses} htmlFor="name">
                         Name
                     </label>
                     <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className={inputClasses}
                         type="text"
                         id="name"
                         name="name"
@@ -58,11 +61,11 @@ const AddTransactionComponent: React.FC = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                    <label className={labelClasses} htmlFor="description">
                         Description
                     </label>
                     <textarea
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className={inputClasses}
                         id="description"
                         name="description"
                         value={formData.description}
@@ -71,77 +74,81 @@ const AddTransactionComponent: React.FC = () => {
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="type">
-                        Type
-                    </label>
-                    <select
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="type"
-                        name="type"
-                        value={formData.type}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="expense">Expense</option>
-                        <option value="income">Income</option>
-                    </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label className={labelClasses} htmlFor="type">
+                            Type
+                        </label>
+                        <select
+                            className={inputClasses}
+                            id="type"
+                            name="type"
+                            value={formData.type}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className={labelClasses} htmlFor="category">
+                            Category
+                        </label>
+                        <select
+                            className={inputClasses}
+                            id="category"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Select a category</option>
+                            {categories.map(category => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
-                        Category
-                    </label>
-                    <select
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="category"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">Select a category</option>
-                        {categories.map(category => (
-                            <option key={category} value={category}>{category}</option>
-                        ))}
-                    </select>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label className={labelClasses} htmlFor="amount">
+                            Amount
+                        </label>
+                        <input
+                            className={inputClasses}
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            value={formData.amount}
+                            onChange={handleChange}
+                            min="0"
+                            step="0.01"
+                            required
+                        />
+                    </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="amount">
-                        Amount
-                    </label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        value={formData.amount}
-                        onChange={handleChange}
-                        min="0"
-                        step="0.01"
-                        required
-                    />
-                </div>
-
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
-                        Date
-                    </label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="date"
-                        id="date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div>
+                        <label className={labelClasses} htmlFor="date">
+                            Date
+                        </label>
+                        <input
+                            className={inputClasses}
+                            type="date"
+                            id="date"
+                            name="date"
+                            value={formData.date}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="w-full bg-[#6c63ff] hover:bg-[#5147ff] text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6c63ff] focus:ring-opacity-50"
                 >
                     Add Transaction
                 </button>
