@@ -9,6 +9,8 @@ import Sidebar from "@/app/Components/sidebar";
 const Dashboard: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+    const userName = "Kwaku Owusu";
+
     const expenseData = [
         { month: 'Jan', expense: 1200, income: 3000 },
         { month: 'Feb', expense: 1500, income: 3200 },
@@ -67,7 +69,11 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 ml-64 p-6 bg-gray-50 min-h-screen transition-all`}>
+            <div className={`flex-1 ${isSidebarOpen ? 'ml-64' : 'ml-0'} p-6 bg-gray-50 min-h-screen transition-all`}>
+                {/* Greeting Section */}
+                <h1 className="text-3xl font-bold text-[#1a1a2e] mb-8">
+                    Hi {userName}!
+                </h1>
                 {/* Toggle Button */}
                 {!isSidebarOpen && (
                     <button

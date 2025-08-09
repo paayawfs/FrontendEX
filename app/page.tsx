@@ -1,11 +1,16 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import Dashboard from './Dashboard/Dashboard';
+import TransactionsPage from "./transactions/transaction_page";
 
 export default function Page() {
+    const pathname = usePathname();
+
     return (
-        <main> {/* ml-64 adds margin to account for sidebar width */}
-            <Dashboard />
+        <main>
+            {pathname === '/' && <Dashboard />}
+            {pathname === '/transactions' && <TransactionsPage />}
         </main>
     );
 }

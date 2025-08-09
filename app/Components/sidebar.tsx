@@ -8,18 +8,18 @@ import { RiDashboardLine, RiExchangeDollarLine } from 'react-icons/ri';
 const Sidebar: React.FC = () => {
     const pathname = usePathname();
 
-    const navItems = [
-        {
-            path: '/',
-            name: 'Dashboard',
-            icon: <RiDashboardLine className="text-xl" />
-        },
-        {
-            path: '/transactions',
-            name: 'Transactions',
-            icon: <RiExchangeDollarLine className="text-xl" />
-        }
-    ];
+const navItems = [
+    {
+        path: '/',
+        name: 'Dashboard',
+        icon: <RiDashboardLine className="text-xl" />
+    },
+    {
+        path: '/transactions',
+        name: 'Transactions',
+        icon: <RiExchangeDollarLine className="text-xl" />
+    }
+];
 
     return (
         <aside className="h-screen w-64 bg-[#242450] fixed left-0 top-0">
