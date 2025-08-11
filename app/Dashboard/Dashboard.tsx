@@ -1,56 +1,111 @@
+// app/Dashboard/Dashboard.tsx
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecentActivityTable from "@/app/Components/recent_activity_table";
 import Dashboard_component from "@/app/Components/dashboard_component";
 import MyLineChart from "@/app/Components/line_chart";
 import MyPieChart from "@/app/Components/pie_chart";
 import Sidebar from "@/app/Components/sidebar";
+import { api } from '@/app/Services/api';
+import type { Transaction } from '@/app/types';
 
 const Dashboard: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [dashboardData, setDashboardData] = useState({
+        userName: '',
+        totalBalance: 0,
+        totalIncome: 0,
+        totalExpenses: 0
+    });
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-    const userName = "Kwaku Owusu";
+    useEffect(() => {
+        const fetchAllDashboardData = async () => {
+            setIsLoading(true);
+            try {
+                const [summary, allTransactions] = await Promise.all([
+                    api.transactions.getSummary(),
+                    api.transactions.getAll()
+                ]);
 
-    const expenseData = [
-        { month: 'Jan', expense: 1200, income: 3000 },
-        { month: 'Feb', expense: 1500, income: 3200 },
-        { month: 'Mar', expense: 1100, income: 3100 },
-        { month: 'Apr', expense: 1400, income: 3400 },
-        { month: 'May', expense: 1300, income: 3300 },
-        { month: 'Jun', expense: 1600, income: 3500 },
-        { month: 'Jul', expense: 1700, income: 3600 },
-        { month: 'Aug', expense: 1800, income: 3700 },
-        { month: 'Sep', expense: 1900, income: 3800 },
-        { month: 'Oct', expense: 2000, income: 4000 },
-        { month: 'Nov', expense: 2100, income: 4100 },
-        { month: 'Dec', expense: 2200, income: 4200 }
-    ];
+                setDashboardData({
+                    userName: summary.userName,
+                    totalBalance: summary.totalBalance,
+                    totalIncome: summary.totalIncome,
+                    totalExpenses: summary.totalExpenses
+                });
 
-    const pieData = [
-        { Category: 'Food', value: 400 },
-        { Category: 'Transport', value: 300 },
-        { Category: 'Bills', value: 500 },
-        { Category: 'Entertainment', value: 200 },
-    ];
+                setTransactions(allTransactions);
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const recentTransactions = [
-        {
-            name: "Groceries",
-            value: 400,
-            date: "2024-01-15",
-            type: "expense",
-            category: "Food",
-            id: 1
-        },
-        {
-            name: "Utilities",
-            value: 300,
-            date: "2024-01-14",
-            type: "expense",
-            category: "Bills",
-            id: 2
-        },
-    ];
+        fetchAllDashboardData();
+    }, []);
+
+    // Transform transaction data for the line chart
+    const getLineChartData = () => {
+        if (!transactions.length) return [];
+
+        // Group transactions by month
+        const monthlyData = transactions.reduce((acc, transaction) => {
+            const date = new Date(transaction.date);
+            const monthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+
+            if (!acc[monthYear]) {
+                acc[monthYear] = { month: monthYear, expense: 0, income: 0 };
+            }
+
+            // Add to either expense or income based on transaction type
+            if (transaction.transactionType === 'Debit') {
+                acc[monthYear].expense += transaction.amount;
+            } else if (transaction.transactionType === 'Credit') {
+                acc[monthYear].income += transaction.amount;
+            }
+
+            return acc;
+        }, {} as Record<string, { month: string; expense: number; income: number }>);
+
+        // Convert to array and sort by date
+        return Object.values(monthlyData).sort((a, b) => {
+            const dateA = new Date(a.month);
+            const dateB = new Date(b.month);
+            return dateA.getTime() - dateB.getTime();
+        });
+    };
+
+    // Get category-based pie chart data
+    const getCategoryPieData = () => {
+        if (!transactions.length) return [];
+
+        // Group expenses by category (only Debit transactions)
+        const categoryMap = transactions.reduce((acc, transaction) => {
+            if (transaction.transactionType === 'Debit') {
+                if (!acc[transaction.category]) {
+                    acc[transaction.category] = 0;
+                }
+                acc[transaction.category] += transaction.amount;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+
+        // Convert to array format for pie chart
+        return Object.entries(categoryMap).map(([category, amount]) => ({
+            Category: category,
+            value: amount
+        }));
+    };
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+
+     const pieChartData = getCategoryPieData();
 
     return (
         <div className="flex">
@@ -70,11 +125,9 @@ const Dashboard: React.FC = () => {
 
             {/* Main Content */}
             <div className={`flex-1 ${isSidebarOpen ? 'ml-64' : 'ml-0'} p-6 bg-gray-50 min-h-screen transition-all`}>
-                {/* Greeting Section */}
                 <h1 className="text-3xl font-bold text-[#1a1a2e] mb-8">
-                    Hi {userName}!
+                    Hi {dashboardData.userName}!
                 </h1>
-                {/* Toggle Button */}
                 {!isSidebarOpen && (
                     <button
                         onClick={() => setIsSidebarOpen(true)}
@@ -89,21 +142,21 @@ const Dashboard: React.FC = () => {
 
                 {/* Dashboard Components */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <Dashboard_component title="Total Balance" value={5000} />
-                    <Dashboard_component title="Total Income" value={8000} />
-                    <Dashboard_component title="Total Expenses" value={3000} />
+                    <Dashboard_component title="Total Balance" value={dashboardData.totalBalance} />
+                    <Dashboard_component title="Total Income" value={dashboardData.totalIncome} />
+                    <Dashboard_component title="Total Expenses" value={dashboardData.totalExpenses} />
                 </div>
 
                 {/* Charts Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <MyLineChart expense_data={expenseData} />
-                    <MyPieChart data={pieData} />
+                    <MyLineChart expense_data={getLineChartData()} />
+                    <MyPieChart data={pieChartData} />
                 </div>
 
                 {/* Recent Activity Table */}
                 <div className="bg-white p-6 rounded-xl shadow-lg">
                     <h3 className="text-xl font-bold text-[#363B64] mb-4">Recent Transactions</h3>
-                    <RecentActivityTable transaction={recentTransactions} />
+                    <RecentActivityTable transaction={transactions} />
                 </div>
 
                 {/* Add Transaction Button */}

@@ -1,37 +1,46 @@
+// app/Components/add_transaction_component.tsx
 'use client';
 import React, { useState } from 'react';
-
-interface TransactionFormData {
-    name: string;
-    description: string;
-    type: 'income' | 'expense';
-    category: string;
-    amount: number;
-    date: string;
-}
+import { useRouter } from 'next/navigation';
+import { api } from '@/app/Services/api';
+import type { TransactionData } from '@/app/types';
 
 const AddTransactionComponent: React.FC = () => {
-    const [formData, setFormData] = useState<TransactionFormData>({
-        name: '',
-        description: '',
-        type: 'expense',
-        category: '',
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Define categories
+    const categories = ['Food', 'Transport', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other'];
+
+    // Updated to match the TransactionData interface
+    const [formData, setFormData] = useState<TransactionData>({
+        transactionName: '',
         amount: 0,
-        date: new Date().toISOString().split('T')[0]
+        transactionType: 'Debit',
+        category: '',
+        date: new Date().toISOString().split('T')[0],
+        description: ''
     });
 
-    const categories = [
-        'Food', 'Transport', 'Utilities', 'Entertainment',
-        'Shopping', 'Healthcare', 'Education', 'Other'
-    ];
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            await api.transactions.add(formData);
+            router.push('/transactions');
+            router.refresh();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to add transaction');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -45,16 +54,22 @@ const AddTransactionComponent: React.FC = () => {
             <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl px-8 pt-6 pb-8 mb-4 border-l-4 border-[#6c63ff]">
                 <h2 className="text-2xl font-bold mb-6 text-[#1a1a2e]">Add Transaction</h2>
 
+                {error && (
+                    <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                        {error}
+                    </div>
+                )}
+
                 <div className="mb-4">
-                    <label className={labelClasses} htmlFor="name">
+                    <label className={labelClasses} htmlFor="transactionName">
                         Name
                     </label>
                     <input
                         className={inputClasses}
                         type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
+                        id="transactionName"
+                        name="transactionName"
+                        value={formData.transactionName}
                         onChange={handleChange}
                         required
                     />
@@ -76,19 +91,19 @@ const AddTransactionComponent: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label className={labelClasses} htmlFor="type">
+                        <label className={labelClasses} htmlFor="transactionType">
                             Type
                         </label>
                         <select
                             className={inputClasses}
-                            id="type"
-                            name="type"
-                            value={formData.type}
+                            id="transactionType"
+                            name="transactionType"
+                            value={formData.transactionType}
                             onChange={handleChange}
                             required
                         >
-                            <option value="expense">Expense</option>
-                            <option value="income">Income</option>
+                            <option value="Debit">Expense</option>
+                            <option value="Credit">Income</option>
                         </select>
                     </div>
 
@@ -148,9 +163,10 @@ const AddTransactionComponent: React.FC = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-[#6c63ff] hover:bg-[#5147ff] text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6c63ff] focus:ring-opacity-50"
+                    disabled={isLoading}
+                    className="w-full bg-[#6c63ff] hover:bg-[#5147ff] text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#6c63ff] focus:ring-opacity-50 disabled:bg-gray-400"
                 >
-                    Add Transaction
+                    {isLoading ? 'Adding...' : 'Add Transaction'}
                 </button>
             </form>
         </div>

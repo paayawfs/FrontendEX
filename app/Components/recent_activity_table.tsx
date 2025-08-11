@@ -1,21 +1,15 @@
 'use client';
 
 import React from 'react';
-type transactionProps = {
-    transaction:
-        { name: string;
-            value: number;
-            date: string;
-            type: string;
-            category: string;
-            id: number;
-        }[];
+import type { Transaction } from '@/app/types';
+
+interface RecentActivityTableProps {
+    transaction: Transaction[];
 }
 
-const RecentActivityTable = ({transaction}: transactionProps) => {
-
+const RecentActivityTable: React.FC<RecentActivityTableProps> = ({transaction}) => {
     return (
-        <div className={"overflow-x-auto bg-white rounded-2xl shadow "}>
+        <div className="overflow-x-auto bg-white rounded-2xl shadow">
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>
@@ -29,17 +23,17 @@ const RecentActivityTable = ({transaction}: transactionProps) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {transaction.map((item) => (
                         <tr key={item.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.value}₵</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.transactionName}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.amount}₵</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{new Date(item.date).toLocaleDateString()}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.type}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.transactionType}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.category}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
-
     );
-}
+};
+
 export default RecentActivityTable;
