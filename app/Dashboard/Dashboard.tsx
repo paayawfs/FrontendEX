@@ -14,9 +14,9 @@ const Dashboard: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [dashboardData, setDashboardData] = useState({
         userName: '',
-        totalBalance: 0,
-        totalIncome: 0,
-        totalExpenses: 0
+        balance: 0,
+        income: 0,
+        expenditure: 0
     });
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -30,10 +30,10 @@ const Dashboard: React.FC = () => {
                 ]);
 
                 setDashboardData({
-                    userName: summary.userName,
-                    totalBalance: summary.totalBalance,
-                    totalIncome: summary.totalIncome,
-                    totalExpenses: summary.totalExpenses
+                    name: summary.name,
+                    balance: summary.balance,
+                    income: summary.income,
+                    expenditure: summary.expenditure
                 });
 
                 setTransactions(allTransactions);
@@ -93,7 +93,6 @@ const Dashboard: React.FC = () => {
             return acc;
         }, {} as Record<string, number>);
 
-        // Convert to array format for pie chart
         return Object.entries(categoryMap).map(([category, amount]) => ({
             Category: category,
             value: amount
@@ -142,9 +141,9 @@ const Dashboard: React.FC = () => {
 
                 {/* Dashboard Components */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <Dashboard_component title="Total Balance" value={dashboardData.totalBalance} />
-                    <Dashboard_component title="Total Income" value={dashboardData.totalIncome} />
-                    <Dashboard_component title="Total Expenses" value={dashboardData.totalExpenses} />
+                    <Dashboard_component title="Total Balance" value={dashboardData.balance} />
+                    <Dashboard_component title="Total Income" value={dashboardData.income} />
+                    <Dashboard_component title="Total Expenses" value={dashboardData.expenditure} />
                 </div>
 
                 {/* Charts Section */}

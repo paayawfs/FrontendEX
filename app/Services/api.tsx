@@ -1,17 +1,17 @@
 import { TransactionData } from "../types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/transaction';
 
 export const api = {
     transactions: {
         getAll: async () => {
-            const response = await fetch(`${API_BASE_URL}/transactions`);
+            const response = await fetch(`${API_BASE_URL}`);
             if (!response.ok) throw new Error('Failed to fetch transactions');
             return response.json();
         },
 
         add: async (data: TransactionData) => {
-            const response = await fetch(`${API_BASE_URL}/transactions`, {
+            const response = await fetch(`${API_BASE_URL}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export const api = {
         },
 
         delete: async (id: string) => {
-            const response = await fetch(`${API_BASE_URL}/transactions/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) throw new Error('Failed to delete transaction');
@@ -31,12 +31,12 @@ export const api = {
         },
 
         getSummary: async () => {
-            const response = await fetch(`${API_BASE_URL}/transactions/summary`);
+            const response = await fetch(`${API_BASE_URL}/summary`);
             if (!response.ok) throw new Error('Failed to fetch summary statistics');
             return response.json();
         },
         update: async (id: string, data: TransactionData) => {
-            const response = await fetch(`${API_BASE_URL}/transactions/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
