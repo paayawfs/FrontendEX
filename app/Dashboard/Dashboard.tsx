@@ -89,6 +89,7 @@ const Dashboard: React.FC = () => {
                     acc[transaction.category] = 0;
                 }
                 acc[transaction.category] += transaction.amount;
+                
             }
             return acc;
         }, {} as Record<string, number>);
@@ -159,12 +160,7 @@ const Dashboard: React.FC = () => {
                     <RecentActivityTable transaction={transactions} />
                 </div>
 
-                {/* Add Transaction Button */}
-                <button className="fixed bottom-8 right-8 bg-[#6c63ff] text-white rounded-full p-4 shadow-lg hover:bg-[#5147ff] transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                </button>
+
             </div>
         </div>
     );
