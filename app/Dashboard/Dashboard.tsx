@@ -31,9 +31,9 @@ const Dashboard: React.FC = () => {
 
                 setDashboardData({
                     userName: summary.name,
-                    totalBalance: summary.totalBalance,
-                    totalIncome: summary.totalIncome,
-                    totalExpenses: summary.totalExpenses
+                    totalBalance: summary.balance,
+                    totalIncome: summary.income,
+                    totalExpenses: summary.expenditure
                 });
 
                 setTransactions(allTransactions);
