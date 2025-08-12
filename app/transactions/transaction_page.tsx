@@ -5,6 +5,7 @@ import UpdateTransactionForm from '@/app/Components/update_transaction';
 import Sidebar from '../Components/sidebar';
 import { api } from '@/app/Services/api';
 import type { Transaction } from '@/app/types';
+import AddTransactionComponent from '@/app/Components/add_transaction_component';
 
 interface FilterState {
     category: string;
@@ -19,6 +20,7 @@ const TransactionsPage: React.FC = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isAddMode, setIsAddMode] = useState(false);
     const [filters, setFilters] = useState<FilterState>({
         category: '',
         startDate: '',
@@ -89,8 +91,7 @@ const TransactionsPage: React.FC = () => {
 
     const handleUpdateTransaction = async (updatedTransaction: Transaction) => {
         try {
-            // Add update method to the API service
-            await api.transactions.update?.(updatedTransaction.id, updatedTransaction);
+            await api.transactions.update(updatedTransaction.id, updatedTransaction);
             setTransactions(transactions.map(t =>
                 t.id === updatedTransaction.id ? updatedTransaction : t
             ));
@@ -104,6 +105,16 @@ const TransactionsPage: React.FC = () => {
     const handleCancelEdit = () => {
         setIsEditMode(false);
         setSelectedTransaction(null);
+    };
+
+    const handleAddTransaction = async (newTransaction: TransactionData) => {
+      try {
+        const addedTransaction = await api.transactions.add(newTransaction);
+        setTransactions([addedTransaction, ...transactions]);
+        setIsAddMode(false);
+      } catch (error) {
+        console.error('Error adding transaction:', error);
+      }
     };
 
     if (isLoading) {
@@ -148,6 +159,18 @@ const TransactionsPage: React.FC = () => {
                         onUpdate={handleUpdateTransaction}
                         onCancel={handleCancelEdit}
                     />
+                ) : isAddMode ? (
+                    <div className="mb-6">
+                        <AddTransactionComponent />
+                        <div className="mt-4 flex justify-end">
+                            <button
+                                onClick={() => setIsAddMode(false)}
+                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 ) : (
                     <>
                         {/* Filter Section */}
@@ -269,6 +292,19 @@ const TransactionsPage: React.FC = () => {
                     transactionName={selectedTransaction?.transactionName || ''}
                     transactionAmount={selectedTransaction?.amount || 0}
                 />
+
+                {/* Floating Add Button */}
+                {!isEditMode && !isAddMode && (
+                    <button
+                        onClick={() => setIsAddMode(true)}
+                        className="fixed bottom-8 right-8 bg-[#6c63ff] text-white rounded-full p-4 shadow-lg hover:bg-[#5147ff] transition-colors"
+                        aria-label="Add transaction"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </button>
+                )}
             </div>
         </div>
     );
