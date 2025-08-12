@@ -18,6 +18,7 @@ export const api = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                mode : 'cors',
                 body: JSON.stringify(data)
             });
             if (!response.ok) throw new Error('Failed to add transaction');
@@ -26,7 +27,8 @@ export const api = {
 
         delete: async (id: string) => {
             const response = await fetch(`${API_BASE_URL}/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                mode : 'cors'
             });
             if (!response.ok) throw new Error('Failed to delete transaction');
             return response.json();
@@ -52,6 +54,7 @@ export const api = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                
                 },
                 body: JSON.stringify(data)
             });
