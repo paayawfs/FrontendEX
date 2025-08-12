@@ -14,7 +14,7 @@ export default function Dashboard_component({ title, value }: DashboardComponent
                 </h3>
                 <div className="flex items-end">
                     <span className="text-3xl font-bold text-[#1a1a2e]">
-                        ₵{value.toLocaleString()}
+                        ₵{value}
                     </span>
                 </div>
             </div>

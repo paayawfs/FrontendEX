@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
                 ]);
 
                 setDashboardData({
-                    userName: summary.userName,
+                    userName: summary.name,
                     totalBalance: summary.totalBalance,
                     totalIncome: summary.totalIncome,
                     totalExpenses: summary.totalExpenses
