@@ -31,10 +31,21 @@ export const api = {
         },
 
         getSummary: async () => {
-            const response = await fetch(`${API_BASE_URL}/summary`);
-            if (!response.ok) throw new Error('Failed to fetch summary statistics');
+            const username = 'B@example.com';
+            const password = 'mySecure123';
+            const headers = new Headers();
+            headers.append('Authorization', 'Basic' + btoa(username + ':' + password));
+
+            const response = await fetch(`${API_BASE_URL}/summary`,{
+                method: 'GET',
+                headers: headers
+            });
+            if (!response.ok) throw new Error('Failed to fetch transaction summary');
             return response.json();
         },
+
+
+
         update: async (id: string, data: TransactionData) => {
             const response = await fetch(`${API_BASE_URL}/${id}`, {
                 method: 'PUT',
