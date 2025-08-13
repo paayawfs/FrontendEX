@@ -111,7 +111,9 @@ const TransactionsPage: React.FC = () => {
     const handleAddTransaction = async (newTransaction: TransactionData) => {
       try {
         const addedTransaction = await api.transactions.add(newTransaction);
-        setTransactions([addedTransaction, ...transactions]);
+        // @ts-expect-error // Assuming the API returns the full transaction object with an id
+          setTransactions([addedTransaction, ...transactions]);
+        console.log(addedTransaction);
         setIsAddMode(false);
       } catch (error) {
         console.error('Error adding transaction:', error);
@@ -157,12 +159,15 @@ const TransactionsPage: React.FC = () => {
                 {isEditMode && selectedTransaction ? (
                     <UpdateTransactionForm
                         transaction={selectedTransaction}
+                        categories={categories.filter(c => c !== 'All')}
                         onUpdate={handleUpdateTransaction}
                         onCancel={handleCancelEdit}
                     />
                 ) : isAddMode ? (
                     <div className="mb-6">
-                        <AddTransactionComponent onAdd = {handleAddTransaction} />
+                        <AddTransactionComponent
+                            categories={categories.filter(c => c !== 'All')}
+                            onAdd = {handleAddTransaction} />
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={() => setIsAddMode(false)}
