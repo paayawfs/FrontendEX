@@ -27,7 +27,6 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
     }));
   };
 
-  const categories = ["Food", "Transport", "Shopping", "Entertainment", "Bills", "Other"];
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,11 +69,14 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
           onChange={handleChange}
           className="border p-2 rounded"
       >
-        {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-        ))}
+        <option>Food</option>
+        <option>Education</option>
+        <option> Bills</option>
+        <option>Entertainment</option>
+        <option>Shopping</option>
+        <option>Transport</option>
+        <option>Other</option>
+
       </select>
       <input
         name="date"
