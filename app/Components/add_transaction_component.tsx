@@ -15,7 +15,6 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
     category: 'Food',
     date: new Date().toISOString().slice(0, 10),
     description: '',
-    userId: null
   });
 
   const handleChange = (
