@@ -18,11 +18,13 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
     userId: null
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
-      [name]: name === 'amount' ? Number(value) : value
+      [name]: name === 'amount' ? Number(value) : value,
     }));
   };
 
@@ -32,30 +34,63 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input name="transactionName" value={form.transactionName} onChange={handleChange} className="border p-2 rounded" placeholder="Name" />
-      <input name="amount" type="number" value={form.amount} onChange={handleChange} className="border p-2 rounded" placeholder="Amount" />
-      <select name="transactionType" value={form.transactionType} onChange={handleChange} className="border p-2 rounded">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-xl shadow-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+    >
+      <input
+        name="transactionName"
+        value={form.transactionName}
+        onChange={handleChange}
+        className="border p-2 rounded"
+        placeholder="Name"
+      />
+      <input
+        name="amount"
+        type="number"
+        value={form.amount}
+        onChange={handleChange}
+        className="border p-2 rounded"
+        placeholder="Amount"
+      />
+      <select
+        name="transactionType"
+        value={form.transactionType}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
         <option>Debit</option>
         <option>Credit</option>
       </select>
-      <input name="category" value={form.category} onChange={handleChange} className="border p-2 rounded" placeholder="Category" />
-      <input name="date" type="date" value={form.date} onChange={handleChange} className="border p-2 rounded" />
-      <input name="description" value={form.description} onChange={handleChange} className="border p-2 rounded md:col-span-2" placeholder="Description" />
-      <button type="submit" className="bg-[#6c63ff] text-white rounded px-4 py-2 md:col-span-2">Add</button>
+      <input
+        name="category"
+        value={form.category}
+        onChange={handleChange}
+        className="border p-2 rounded"
+        placeholder="Category"
+      />
+      <input
+        name="date"
+        type="date"
+        value={form.date}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+      <input
+        name="description"
+        value={form.description}
+        onChange={handleChange}
+        className="border p-2 rounded md:col-span-2"
+        placeholder="Description"
+      />
+      <button
+        type="submit"
+        className="bg-[#6c63ff] text-white rounded px-4 py-2 md:col-span-2"
+      >
+        Add
+      </button>
     </form>
   );
 };
 
 export default AddTransactionComponent;
-
-// app/transactions/transaction_page.tsx (relevant parts)
-// Import stays default:
-import AddTransactionComponent from '../Components/add_transaction_component';
-
-// Usage stays:
-<AddTransactionComponent onAdd={handleAddTransaction} />
-
-// If your component was a named export like `export const AddTransactionComponent = ...`,
-// then import with braces instead:
-// import { AddTransactionComponent } from '../Components/add_transaction_component';
