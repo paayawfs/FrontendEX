@@ -159,15 +159,12 @@ const TransactionsPage: React.FC = () => {
                 {isEditMode && selectedTransaction ? (
                     <UpdateTransactionForm
                         transaction={selectedTransaction}
-                        categories={categories.filter(c => c !== 'All')}
                         onUpdate={handleUpdateTransaction}
                         onCancel={handleCancelEdit}
                     />
                 ) : isAddMode ? (
                     <div className="mb-6">
-                        <AddTransactionComponent
-                            categories={categories.filter(c => c !== 'All')}
-                            onAdd = {handleAddTransaction} />
+                        <AddTransactionComponent onAdd = {handleAddTransaction} />
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={() => setIsAddMode(false)}

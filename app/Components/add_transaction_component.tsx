@@ -27,9 +27,6 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
     }));
   };
 
-  const categories = ["Food", "Transport", "Shopping", "Entertainment", "Bills", "Other"];
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onAdd(form);
