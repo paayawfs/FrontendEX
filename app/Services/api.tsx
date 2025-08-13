@@ -42,7 +42,7 @@ export const api = {
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error("Failed to add transaction");
-      return response.json;
+      return response.json();
     },
 
     delete: async (id: string) => {
