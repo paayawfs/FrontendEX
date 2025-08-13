@@ -91,7 +91,6 @@ const TransactionsPage: React.FC = () => {
 
     const handleUpdateTransaction = async (updatedTransaction: Transaction) => {
         try {
-            // Add update method to the API service
             await api.transactions.update?.(updatedTransaction.id, updatedTransaction);
             setTransactions(transactions.map(t =>
                 t.id === updatedTransaction.id ? updatedTransaction : t
@@ -163,7 +162,7 @@ const TransactionsPage: React.FC = () => {
                     />
                 ) : isAddMode ? (
                     <div className="mb-6">
-                        <AddTransactionComponent />
+                        <AddTransactionComponent onAdd = {handleAddTransaction} />
                         <div className="mt-4 flex justify-end">
                             <button
                                 onClick={() => setIsAddMode(false)}
