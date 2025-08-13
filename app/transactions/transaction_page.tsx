@@ -111,9 +111,7 @@ const TransactionsPage: React.FC = () => {
     const handleAddTransaction = async (newTransaction: TransactionData) => {
       try {
         const addedTransaction = await api.transactions.add(newTransaction);
-        // @ts-expect-error // Assuming the API returns the full transaction object with an id
-          setTransactions([addedTransaction, ...transactions]);
-        console.log(addedTransaction);
+        setTransactions([addedTransaction, ...transactions]);
         setIsAddMode(false);
       } catch (error) {
         console.error('Error adding transaction:', error);
