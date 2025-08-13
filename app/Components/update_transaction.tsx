@@ -5,33 +5,28 @@ import type { Transaction } from '@/app/types';
 
 interface UpdateTransactionProps {
   transaction: Transaction;
-  categories: string[];
   onUpdate: (updatedTransaction: Transaction) => void;
   onCancel: () => void;
 }
 
 const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
   transaction,
-    categories,
   onUpdate,
   onCancel
 }) => {
-  const [form, setForm] = useState<Transaction>({...transaction});
-
-  const labelClasses = "block text-sm font-medium text-gray-700";
-  const inputClasses = "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2";
+  const [formData, setFormData] = useState<Transaction>({...transaction});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
+    setFormData({
+      ...formData,
       [name]: name === 'amount' ? Number(value) : value
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdate(form);
+    onUpdate(formData);
   };
 
   return (
@@ -45,7 +40,7 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
               type="text"
               id="transactionName"
               name="transactionName"
-              value={form.transactionName}
+              value={formData.transactionName}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               required
@@ -58,7 +53,7 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
               type="number"
               id="amount"
               name="amount"
-              value={form.amount}
+              value={formData.amount}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               required
@@ -71,7 +66,7 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
               type="date"
               id="date"
               name="date"
-              value={form.date}
+              value={formData.date}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               required
@@ -83,7 +78,7 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
             <select
               id="transactionType"
               name="transactionType"
-              value={form.transactionType}
+              value={formData.transactionType}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               required
@@ -93,22 +88,17 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className={labelClasses} htmlFor="category">
-              Category
-            </label>
-            <select
-                className={inputClasses}
-                id="category"
-                name="category"
-                value={form.category}
-                onChange={handleChange}
-                required
-            >
-              {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
+          <div>
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              required
+            />
           </div>
 
           <div>
@@ -116,7 +106,7 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
             <textarea
               id="description"
               name="description"
-              value={form.description}
+              value={formData.description}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               rows={2}

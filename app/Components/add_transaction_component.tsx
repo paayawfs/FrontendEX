@@ -1,24 +1,24 @@
+// app/Components/add_transaction_component.tsx
 'use client';
 import React, { useState } from 'react';
 import type { TransactionData } from '@/app/types';
 
 interface AddTransactionProps {
   onAdd: (data: TransactionData) => Promise<void> | void;
-  categories: string[];
 }
 
-const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd, categories }) => {
+const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
   const [form, setForm] = useState<TransactionData>({
     transactionName: '',
     amount: 0,
     transactionType: 'Debit',
-    category: categories[0] || 'Food',
+    category: 'Food',
     date: new Date().toISOString().slice(0, 10),
     description: '',
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -43,7 +43,6 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd, categor
         onChange={handleChange}
         className="border p-2 rounded"
         placeholder="Name"
-        required
       />
       <input
         name="amount"
@@ -52,38 +51,29 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd, categor
         onChange={handleChange}
         className="border p-2 rounded"
         placeholder="Amount"
-        required
       />
       <select
         name="transactionType"
         value={form.transactionType}
         onChange={handleChange}
         className="border p-2 rounded"
-        required
       >
-        <option value="Debit">Debit</option>
-        <option value="Credit">Credit</option>
+        <option>Debit</option>
+        <option>Credit</option>
       </select>
-      <select
+      <input
         name="category"
         value={form.category}
         onChange={handleChange}
         className="border p-2 rounded"
-        required
-      >
-        {categories.map((category) => (
-          <option key={category} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
+        placeholder="Category"
+      />
       <input
         name="date"
         type="date"
         value={form.date}
         onChange={handleChange}
         className="border p-2 rounded"
-        required
       />
       <input
         name="description"
