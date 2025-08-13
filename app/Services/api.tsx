@@ -15,10 +15,10 @@ export const api = {
         add: async (data: TransactionData) => {
             const response = await fetch(`${API_BASE_URL}`, {
                 method: 'POST',
+                mode : 'cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                mode : 'cors',
                 body: JSON.stringify(data)
             });
             if (!response.ok) throw new Error('Failed to add transaction');
@@ -35,10 +35,10 @@ export const api = {
         },
 
         getSummary: async () => {
-            let username = 'B@example.com';
-            let password = 'mySecure123';
+            const username = 'B@example.com';
+            const password = 'mySecure123';
             
-            let headers = new Headers();
+            const headers = new Headers();
             headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
 
             const response = await fetch(`${API_BASE_URL}/summary`,{
@@ -49,9 +49,11 @@ export const api = {
             if (!response.ok) throw new Error('Failed to fetch summary statistics');
             return response.json();
         },
+
         update: async (id: string, data: TransactionData) => {
             const response = await fetch(`${API_BASE_URL}/${id}`, {
                 method: 'PUT',
+                mode : 'cors',
                 headers: {
                     'Content-Type': 'application/json',
                 
