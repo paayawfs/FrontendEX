@@ -2,7 +2,7 @@
 import React from 'react';
 import {Pie, PieChart, Cell, Tooltip, Legend, ResponsiveContainer} from 'recharts'
 
-const colors = ['#6c63ff', '#4b3fff', '#1a1a2e', '#8b85ff'];
+const colors = ['#11b8b1', '#dc0606', '#30e110', '#2016bf', '#9932cc', '#ff8c00'];
 
 type PieChartProps = {
     data: { Category: string; value: number }[];
