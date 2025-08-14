@@ -23,15 +23,15 @@ const navItems = [
 
     return (
         <aside className="h-screen w-64 bg-[#242450] fixed left-0 top-0">
-            <div className="p-6">
-                <div className="flex items-center gap-3">
+            <div className="p-3  ">
+                <div className="flex items-center gap-3 pl-17">
                     <Image
                         src="/Resources/walletImage.png"
                         alt="Wallet logo"
-                        width={40}
-                        height={40}
+                        width={35}
+                        height={35}
                     />
-                    <h1 className="text-xl font-bold text-white">
+                    <h1 className="text-l font-bold text-white">
                         Expense Tracker App
                     </h1>
                 </div>
