@@ -5,9 +5,14 @@ import type { Transaction } from '@/app/types';
 
 interface RecentActivityTableProps {
     transaction: Transaction[];
+    limit?: number;
 }
 
-const RecentActivityTable: React.FC<RecentActivityTableProps> = ({transaction}) => {
+const RecentActivityTable: React.FC<RecentActivityTableProps> = ({
+    transaction,
+    limit = 10
+}) => {
+    const displayTransactions = transaction.slice(0, limit);
     return (
         <div className="overflow-x-auto bg-white rounded-2xl shadow">
             <table className="min-w-full divide-y divide-gray-200">
@@ -21,7 +26,7 @@ const RecentActivityTable: React.FC<RecentActivityTableProps> = ({transaction}) 
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {transaction.map((item) => (
+                    {displayTransactions.map((item) => (
                         <tr key={item.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.transactionName}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.amount}₵</td>

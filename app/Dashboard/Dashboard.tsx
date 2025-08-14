@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
 
             {/* Main Content */}
             <div className={`flex-1 ${isSidebarOpen ? 'ml-64' : 'ml-0'} p-6 bg-gray-50 min-h-screen transition-all`}>
-                <h1 className="text-3xl font-bold text-center text-[#1a1a2e] mb-8">
+                <h1 className="text-3xl font-bold pl-12 text-[#1a1a2e] mb-8">
                     Hi {dashboardData.userName}!
                 </h1>
 
