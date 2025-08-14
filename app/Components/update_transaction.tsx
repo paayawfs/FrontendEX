@@ -87,18 +87,23 @@ const UpdateTransactionForm: React.FC<UpdateTransactionProps> = ({
               <option value="Credit">Credit</option>
             </select>
           </div>
-
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-              required
-            />
+            <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                required
+            >
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Bills">Bills</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div>

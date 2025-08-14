@@ -61,13 +61,19 @@ const AddTransactionComponent: React.FC<AddTransactionProps> = ({ onAdd }) => {
         <option>Debit</option>
         <option>Credit</option>
       </select>
-      <input
-        name="category"
-        value={form.category}
-        onChange={handleChange}
-        className="border p-2 rounded"
-        placeholder="Category"
-      />
+      <select
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          className="border p-2 rounded"
+      >
+        <option value="Food">Food</option>
+        <option value="Transport">Transport</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Bills">Bills</option>
+        <option value="Other">Other</option>
+      </select>
       <input
         name="date"
         type="date"
